@@ -1,0 +1,115 @@
+local libUrl = "https://pastebin.com/raw/rqhYETVg"
+local Library = loadstring(game:HttpGet(libUrl))()
+local Window = Library.CreateLib("Euphoria - made with hate | shkolnik viblyadok zaeb so svoim alo", "DarkTheme")
+local Tab = Window:NewTab("Main")
+local Section = Tab:NewSection("Main")
+
+Section:NewLabel("LabelText")
+
+local DefaultSettings = {
+    ["lastjobid"] = "", 
+    ["uibutton"] = Enum.KeyCode.RightShift
+}
+
+
+local SettingsFile = "EuphoriaUI.json"
+function LoadSettings()
+    local status, err = pcall(function()
+        Settings = game:GetService('HttpService'):JSONDecode(readfile(SettingsFile))
+    end)
+    if not err then return Settings else return false end
+end
+
+function WriteSettings()
+    writefile(SettingsFile, game:GetService('HttpService'):JSONEncode(getgenv().Settings))
+end
+
+getgenv().Settings = LoadSettings() or DefaultSettings
+WriteSettings()
+
+
+Section:NewButton("ButtonText", "ButtonInfo", function()
+    print("Clicked")
+end)
+
+Section:NewToggle("ToggleText", "ToggleInfo", function(state)
+    if state then
+        print("Toggle On")
+    else
+        print("Toggle Off")
+    end
+end)
+
+Section:NewSlider("SliderText", "SliderInfo", 500, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+end)
+
+Section:NewTextBox("TextboxText", "TextboxInfo", function(txt)
+	print(txt)
+end)
+
+Section:NewDropdown("DropdownText", "DropdownInf", {"Option 1", "Option 2", "Option 3"}, function(currentOption)
+    print(currentOption)
+end)
+
+local infoTab = Window:NewTab("Information")
+local infoSection = infoTab:NewSection("Information")
+local infoBeli = infoSection:NewLabel("beli1")
+spawn(
+    function()
+        while wait() do
+            infoBeli:UpdateLabel("Beli: " .. game.Players.LocalPlayer.Data.Beli.Value)
+            wait(2)
+        end
+    end
+)
+
+local serverTab = Window:NewTab("Server")
+local serverSection = serverTab:NewSection("Server")
+serverSection:NewButton("Server Hop", "ButtonInfo", function()
+    print("Clicked")
+end)
+serverSection:NewLabel(" ")
+serverSection:NewLabel(" ")
+local lj = getgenv().Settings["lastjobid"] or " "
+local lastJobId = serverSection:NewLabel("Last JobID: " .. lj)
+serverSection:NewTextBox("Job ID", "Job ID", function(jobid)
+	_G.JobID = jobid
+end)
+serverSection:NewButton("Hop server to JobID", "TP to another server by JobID", function()
+    getgenv().Settings["lastjobid"] = _G.JobID
+    WriteSettings()
+    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, _G.JobID)
+end)
+serverSection:NewButton("Hop to last JobID", "TP to another server by JobID", function()
+    if getgenv().Settings["lastjobid"] then
+        game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, getgenv().Settings["lastjobid"])
+    end
+end)
+serverSection:NewButton("Copy my JobID", "Copy to clipboard JobID", function()
+    setclipboard(game.JobId)
+end)
+
+local uiTab = Window:NewTab("UI Settings")
+local uiSection = uiTab:NewSection("UI Settings")
+uiSection:NewKeybind("Show/Hide UI (Default: RShift)", "Shows and Hide UI", getgenv().Settings["uibutton"], function(key)
+	Library:ToggleUI()
+    _G.LastKey = key
+end)
+spawn(
+    function()
+        while wait() do
+            prevKeybind = _G.LastKey
+            wait(2)
+        end
+    end
+)
+
+
+
+
+local debugTab = Window:NewTab("Debug Menu")
+local debugSection = debugTab:NewSection("Debug")
+debugSection:NewButton("Copy CFrame", "Copy to clipboard position", function()
+    setclipboard(tostring(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame))
+end)
