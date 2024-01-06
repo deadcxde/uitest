@@ -115,11 +115,39 @@ spawn(
     end
 )
 
-
-
-
 local debugTab = Window:NewTab("Debug Menu")
 local debugSection = debugTab:NewSection("Debug")
 debugSection:NewButton("Copy CFrame", "Copy to clipboard position", function()
     setclipboard(tostring(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame))
 end)
+debugSection:NewLabel(" ")
+debugSection:NewLabel(" ")
+debugSection:NewLabel(" ")
+debugSection:NewButton(
+    "IY ADMIN",
+    "IY ADMIN",
+    function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+    end    
+)
+debugSection:NewButton(
+    "CMD-X",
+    "CMD-X",
+    function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/CMD-X/CMD-X/master/Source"))()
+    end    
+)
+debugSection:NewButton(
+    "DEX",
+    "dark dex",
+    function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()
+    end    
+)
+debugSection:NewButton(
+    "Simple Spy",
+    "Simple Spy",
+    function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/exxtremestuffs/SimpleSpySource/master/SimpleSpy.lua"))()
+    end    
+)
