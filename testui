@@ -1,4 +1,4 @@
-local libUrl = "https://raw.githubusercontent.com/deadcxde/uitest/main/ui.lua"
+local libUrl = "https://pastebin.com/raw/rqhYETVg"
 local Library = loadstring(game:HttpGet(libUrl))()
 local Window = Library.CreateLib("Euphoria - made with hate | shkolnik viblyadok zaeb so svoim alo", "DarkTheme")
 local Tab = Window:NewTab("Main")
@@ -24,7 +24,13 @@ function WriteSettings()
     writefile(SettingsFile, game:GetService('HttpService'):JSONEncode(getgenv().Settings))
 end
 
-getgenv().Settings = LoadSettings() or DefaultSettings
+getgenv().Settings = DefaultSettings
+settings = LoadSettings()
+if settings then
+    for i,v in pairs(settings) do
+        getgenv().Settings[i] = v
+    end
+end
 WriteSettings()
 
 
@@ -100,6 +106,10 @@ spawn(
     function()
         while wait() do
             prevKeybind = _G.LastKey
+            if prevKeybind ~= getgenv().Settings["uibutton"] then
+                getgenv().Settings["uibutton"] = prevKeybind
+                WriteSettings()
+            end
             wait(2)
         end
     end
