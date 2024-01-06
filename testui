@@ -1,4 +1,4 @@
-local libUrl = "https://pastebin.com/raw/rqhYETVg"
+local libUrl = "https://raw.githubusercontent.com/deadcxde/uitest/main/ui.lua"
 local Library = loadstring(game:HttpGet(libUrl))()
 local Window = Library.CreateLib("Euphoria - made with hate | shkolnik viblyadok zaeb so svoim alo", "DarkTheme")
 local Tab = Window:NewTab("Main")
